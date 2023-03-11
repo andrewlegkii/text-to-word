@@ -1,6 +1,10 @@
+import os
 import telegram
 from telegram.ext import Updater, CommandHandler, MessageHandler, Filters
 import docx
+
+from dotenv import load_dotenv
+load_dotenv()
 
 def start(update, context):
     context.bot.send_message(chat_id=update.effective_chat.id, text="Добро пожаловать в бот Text-to-Word! Пожалуйста, отправьте мне текст, который вы хотите преобразовать.")
@@ -23,7 +27,7 @@ def convert_text_to_word(update, context):
 
 def main():
     # Создаем Telegram-бота и добавляем обработчики команд и сообщений
-    updater = Updater(token='5978160141:AAEv-aR_YApWY0cKKxepNBKyCLwkIfqyQuA', use_context=True)
+    updater = Updater(token=os.getenv("TOKEN") , use_context=True)
     dispatcher = updater.dispatcher
     start_handler = CommandHandler('start', start)
     convert_handler = MessageHandler(Filters.text & ~Filters.command, convert_text_to_word)
